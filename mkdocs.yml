@@ -64,20 +64,35 @@ theme:
 nav:
   - Home: index.md
   - Getting Started: getting-started/index.md
+  - Guides:
+    - Overview: guides/index.md
+    - Quickstart: guides/quickstart.md
+    - Workflows: guides/workflows.md
+    - Contributing: guides/contributing.md
   - Product:
     - Executive Summary: product/executive-summary.md
+    - Features: product/features.md
+    - Roadmap: product/roadmap.md
+    - Vision: product/vision.md
     - Pitch Deck: product/pitch-deck.md
     - Strategic Knowledge Base: product/knowledge-base.md
+  - Architecture:
+    - Overview: architecture/index.md
+    - Argus Brain: architecture/brain.md
+    - Diagrams: architecture/diagrams.md
+  - API Reference: api/index.md
   - Deployment:
     - Deployment Options: deployment/index.md
+    - Deployment Guide: deployment/guide.md
+    - Browser Pool: deployment/browser-pool.md
     - Deployment FAQ: deployment/faq.md
-  - Sales:
-    - Sales Battlecard: sales/battlecard.md
-    - Competitive Analysis: sales/competitive-analysis.md
   - Technical:
     - Architecture: technical/architecture.md
     - Implementation Status: technical/implementation.md
     - Security: technical/security.md
+  - Sales:
+    - Sales Battlecard: sales/battlecard.md
+    - Competitive Analysis: sales/competitive-analysis.md
 
 # Extensions
 markdown_extensions:

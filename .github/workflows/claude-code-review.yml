@@ -1,0 +1,42 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          separator: "\n"
+
+      - name: Claude Code Review
+        uses: anthropics/claude-code-action@beta
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-sonnet-4-20250514
+          direct_prompt: |
+            Review this documentation PR for:
+            1. **Accuracy**: Technical accuracy of content
+            2. **Clarity**: Clear and understandable writing
+            3. **Completeness**: All necessary information included
+            4. **Consistency**: Consistent formatting and style
+            5. **Navigation**: Proper linking and cross-references
+
+            Focus on documentation quality and technical accuracy.
+            If this is a release-please PR, just approve it.
+          timeout_minutes: 10
