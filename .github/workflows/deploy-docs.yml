@@ -11,7 +11,6 @@ on:
     paths:
       - 'docs-site/**'
       - 'mkdocs.yml'
-      - 'ARGUS_*.md'
       - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:  # Allow manual trigger
 
@@ -34,16 +33,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install mkdocs-material mkdocs-minify-plugin
-
-      - name: Sync latest docs to docs-site
-        run: |
-          # Copy latest ARGUS docs to docs-site folder
-          cp -f ARGUS_GETTING_STARTED.md docs-site/getting-started/index.md 2>/dev/null || true
-          cp -f ARGUS_EXECUTIVE_SUMMARY.md docs-site/product/executive-summary.md 2>/dev/null || true
-          cp -f ARGUS_PITCH_DECK.md docs-site/product/pitch-deck.md 2>/dev/null || true
-          cp -f ARGUS_STRATEGIC_KNOWLEDGE_BASE.md docs-site/product/knowledge-base.md 2>/dev/null || true
-          cp -f ARGUS_SALES_BATTLECARD.md docs-site/sales/battlecard.md 2>/dev/null || true
-          cp -f ARGUS_DEPLOYMENT_FAQ.md docs-site/deployment/faq.md 2>/dev/null || true
 
       - name: Build MkDocs site
         run: mkdocs build --config-file mkdocs.yml --site-dir site
