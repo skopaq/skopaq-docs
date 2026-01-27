@@ -1,9 +1,35 @@
 # Kubernetes Infrastructure
 
-> **Version:** 1.0.0
-> **Last Updated:** 2026-01-27T17:30:00Z
-> **Document Status:** Production Ready - Verified Against Codebase
-> **Source Files:** `data-layer/kubernetes/*.yaml` (18 manifests)
+> **Version:** 2.0.0
+> **Last Updated:** 2026-01-27T19:45:00Z
+> **Document Status:** ✅ **FULLY IMPLEMENTED** - All Phases Complete
+> **Source Files:** `data-layer/kubernetes/*.yaml` (18 manifests), `data-layer/cognee-worker/` (4 files)
+
+---
+
+## Implementation Status
+
+All phases of the data layer deployment plan have been implemented and validated:
+
+| Phase | Description | Status | Evidence |
+|-------|-------------|--------|----------|
+| **Phase 1** | Cognee Worker K8s Manifest | ✅ Complete | `cognee-worker.yaml` (321 lines) with HPA, PDB, probes |
+| **Phase 2** | Network Policies | ✅ Complete | `network-policies.yaml` (291 lines) zero-trust |
+| **Phase 3** | Secrets Configuration | ✅ Complete | `secrets.yaml` template with External Secrets guidance |
+| **Phase 4** | Deploy Script | ✅ Complete | `deploy.sh` (264 lines) with `--generate-secrets` |
+| **Phase 5** | Backend Integration | ✅ Complete | `src/api/server.py:2357-2399`, `src/api/tests.py:437-440` |
+| **Phase 6** | Environment Variables | ✅ Complete | ConfigMap in `cognee-worker.yaml:6-69` |
+
+### Additional Implementation (Beyond Original Plan)
+
+| Component | Status | Files |
+|-----------|--------|-------|
+| **KEDA Autoscaling** | ✅ Complete | `keda-cognee-scaler.yaml` - Kafka lag-based scaling |
+| **Flink Platform** | ✅ Complete | `flink-operator.yaml`, `flink-cluster.yaml`, `flink-platform/` |
+| **Cognee Worker Source** | ✅ Complete | `data-layer/cognee-worker/src/worker.py` (710 lines) |
+| **Multi-tenant Isolation** | ✅ Complete | Dataset naming: `org_{id}_project_{id}_{type}` |
+| **Neo4j Aura Integration** | ✅ Complete | Cold start retry (5 attempts, 15s delay) |
+| **Terraform Alternative** | ✅ Complete | `terraform/confluent-cloud/main.tf` |
 
 ---
 
@@ -372,6 +398,82 @@ spec:
       app.kubernetes.io/name: cognee-worker
 ```
 
+### Cognee Worker Implementation Details
+
+**Source File**: `data-layer/cognee-worker/src/worker.py` (710 lines)
+
+The Cognee Worker implements a complete event-driven knowledge graph builder with multi-tenant isolation.
+
+#### Multi-Tenant Dataset Isolation
+
+```python
+def _get_dataset_name(self, org_id: str, project_id: str, dataset_type: str) -> str:
+    """Generate tenant-scoped dataset name.
+
+    Returns: Dataset name like 'org_abc123_project_xyz789_codebase'
+    """
+    return f"org_{org_id}_project_{project_id}_{dataset_type}"
+```
+
+**Dataset Types**:
+| Type | Purpose |
+|------|---------|
+| `codebase` | Source code analysis and knowledge extraction |
+| `tests` | Test execution data and patterns |
+| `failures` | Failure pattern learning for self-healing |
+
+#### Neo4j Aura Cold Start Handling
+
+```python
+async def _test_neo4j_connection(self):
+    """Neo4j Aura Free tier auto-pauses after 3 days of inactivity.
+    Can take 30-60 seconds to wake up on first connection."""
+
+    max_retries = 5
+    retry_delay = 15  # seconds
+
+    for attempt in range(1, max_retries + 1):
+        try:
+            async with driver.session() as session:
+                await session.run("RETURN 1 AS test")
+            return  # Success
+        except ServiceUnavailable:
+            if attempt < max_retries:
+                await asyncio.sleep(retry_delay)
+            else:
+                raise RuntimeError("Failed to connect to Neo4j Aura")
+```
+
+#### Event Processing Flow
+
+```mermaid
+sequenceDiagram
+    participant Redpanda
+    participant Worker as Cognee Worker
+    participant Neo4j as Neo4j Aura
+    participant DLQ as Dead Letter Queue
+
+    Redpanda->>Worker: argus.codebase.ingested
+    Worker->>Worker: Extract tenant context (org_id, project_id)
+    Worker->>Worker: Generate dataset name
+    Worker->>Neo4j: cognee.add() + cognee.cognify()
+
+    alt Success
+        Worker->>Redpanda: argus.codebase.analyzed
+    else Failure
+        Worker->>DLQ: argus.dlq (with error context)
+    end
+
+    Worker->>Worker: Commit Kafka offset
+```
+
+#### Health Endpoints
+
+| Endpoint | Purpose | Response |
+|----------|---------|----------|
+| `GET /health` | Liveness probe | `{"status": "healthy"}` |
+| `GET /ready` | Readiness probe | `{"status": "ready"}` or 503 |
+
 ---
 
 ### KEDA Autoscaling
@@ -648,6 +750,66 @@ VALKEY_HOST=valkey-headless.argus-data.svc.cluster.local
 
 ---
 
+## Backend Integration
+
+The FastAPI backend integrates with the data layer through the Event Gateway service.
+
+### Event Gateway Lifecycle
+
+**File**: `src/api/server.py:2357-2399`
+
+```python
+@app.on_event("startup")
+async def startup_event():
+    # ... other startup tasks ...
+    from src.services.event_gateway import get_event_gateway
+    event_gateway = get_event_gateway()
+    await event_gateway.start()  # Line 2359
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    from src.services.event_gateway import get_event_gateway
+    event_gateway = get_event_gateway()
+    await event_gateway.stop()  # Line 2399
+```
+
+### Event Emission Points
+
+| Location | Event Type | Trigger |
+|----------|------------|---------|
+| `src/api/server.py:964-970` | `TEST_EXECUTED` / `TEST_FAILED` | After test run completion |
+| `src/api/tests.py:437-440` | `TEST_CREATED` | After new test creation |
+
+**Example Event Emission** (`src/api/tests.py:437-440`):
+
+```python
+from src.services.event_gateway import EventType, get_event_gateway
+
+event_gateway = get_event_gateway()
+if event_gateway.is_running:
+    await event_gateway.publish(
+        EventType.TEST_CREATED,
+        {"test_id": test_id, "project_id": project_id, ...}
+    )
+```
+
+### Required Environment Variables
+
+For backend to connect to the data layer:
+
+```bash
+# Redpanda/Kafka Connection
+REDPANDA_BROKERS=redpanda.argus-data.svc.cluster.local:9092
+REDPANDA_SASL_USERNAME=argus-service
+REDPANDA_SASL_PASSWORD=<from-secrets>
+
+# Optional: External Redpanda Serverless
+REDPANDA_BROKERS=<serverless-endpoint>:9092
+KAFKA_SECURITY_PROTOCOL=SASL_SSL
+```
+
+---
+
 ## Deployment Sequence
 
 ### Full Stack Deployment
@@ -766,6 +928,17 @@ kubectl exec -n argus-data redpanda-0 -- rpk cluster health
 
 ## Security Configuration
 
+!!! danger "Credential Rotation Required"
+    The `secrets.yaml` template contains **placeholder values** that must be replaced before deployment.
+    If any real credentials were committed to the repository, **rotate them immediately**:
+
+    - Anthropic API key
+    - Neo4j Aura credentials
+    - Cohere API key
+    - Supabase service key
+
+    **Recommended**: Use [External Secrets Operator](https://external-secrets.io/) or [Sealed Secrets](https://sealed-secrets.netlify.app/) for production deployments.
+
 ### Pod Security
 
 ```yaml
@@ -846,31 +1019,66 @@ kubectl exec -n argus-data falkordb-0 -- \
 ## File Manifest
 
 ```
-data-layer/kubernetes/
-├── namespace.yaml              # Namespace, ResourceQuota, LimitRange
-├── secrets.yaml                # 6 secrets (credentials, auth, API keys)
-├── redpanda-values.yaml        # Helm values for Redpanda
-├── falkordb.yaml               # FalkorDB StatefulSet + Service
-├── valkey.yaml                 # Valkey StatefulSet + Service
-├── cognee-worker.yaml          # Cognee Deployment + HPA + PDB
-├── keda-cognee-scaler.yaml     # KEDA ScaledObject + TriggerAuthentication
-├── network-policies.yaml       # Zero-trust network policies
-├── services.yaml               # ClusterIP services
-├── flink-cluster.yaml          # Flink FlinkDeployment + ServiceAccount + RBAC
-├── flink-operator.yaml         # Flink Kubernetes Operator
-├── flink-platform/
-│   ├── keda-autoscaler.yaml
-│   ├── checkpoint-config.yaml
-│   ├── self-healing-operator.yaml
-│   ├── monitoring.yaml
-│   └── deploy-platform.sh
-├── flink-jobs/
-│   └── test-analytics.yaml
-├── deploy.sh                   # Full stack deployment
-├── deploy-minimal.sh           # Minimal deployment
-└── deploy-flink.sh             # Flink + Cloudflare R2 deployment
+data-layer/
+├── kubernetes/
+│   ├── namespace.yaml              # Namespace, ResourceQuota, LimitRange
+│   ├── secrets.yaml                # 6 secrets (credentials, auth, API keys)
+│   ├── redpanda-values.yaml        # Helm values for Redpanda
+│   ├── falkordb.yaml               # FalkorDB StatefulSet + Service
+│   ├── valkey.yaml                 # Valkey StatefulSet + Service
+│   ├── cognee-worker.yaml          # Cognee Deployment + HPA + PDB (321 lines)
+│   ├── keda-cognee-scaler.yaml     # KEDA ScaledObject + TriggerAuthentication
+│   ├── network-policies.yaml       # Zero-trust network policies (291 lines)
+│   ├── services.yaml               # ClusterIP services
+│   ├── flink-cluster.yaml          # Flink FlinkDeployment + ServiceAccount + RBAC
+│   ├── flink-operator.yaml         # Flink Kubernetes Operator
+│   ├── flink-platform/
+│   │   ├── keda-autoscaler.yaml
+│   │   ├── checkpoint-config.yaml
+│   │   ├── self-healing-operator.yaml
+│   │   ├── monitoring.yaml
+│   │   └── deploy-platform.sh
+│   ├── flink-jobs/
+│   │   └── test-analytics.yaml
+│   ├── deploy.sh                   # Full stack deployment (264 lines)
+│   ├── deploy-minimal.sh           # Minimal deployment
+│   └── deploy-flink.sh             # Flink + Cloudflare R2 deployment
+│
+├── cognee-worker/                  # Worker Implementation
+│   ├── src/
+│   │   ├── __init__.py
+│   │   ├── config.py               # Pydantic settings for worker config
+│   │   └── worker.py               # Main worker implementation (710 lines)
+│   ├── scripts/
+│   │   └── init_neo4j_schema.py    # Neo4j schema initialization
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── README.md
+│
+├── schemas/
+│   └── neo4j-multitenant-schema.cypher  # Multi-tenant Cypher schema
+│
+├── terraform/
+│   └── confluent-cloud/
+│       └── main.tf                 # Confluent Cloud alternative
+│
+└── docker/
+    ├── Dockerfile.cognee-worker
+    └── docker-compose.data-layer.yml
+```
+
+### Backend Integration Files
+
+```
+src/
+├── api/
+│   ├── server.py                   # Lines 2357-2399: Event gateway lifecycle
+│   └── tests.py                    # Lines 437-440: TEST_CREATED emission
+│
+└── services/
+    └── event_gateway.py            # EventGateway class for Kafka publishing
 ```
 
 ---
 
-*Last Updated: January 2026*
+*Last Updated: January 27, 2026 - v2.0.0*
