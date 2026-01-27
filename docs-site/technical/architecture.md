@@ -1,10 +1,11 @@
 # Argus E2E Testing Agent - Complete Architecture Documentation
 
-> **Version:** 2.8.0
-> **Last Updated:** 2026-01-17T05:30:00Z
-> **Document Status:** Production Ready
+> **Version:** 2.9.0
+> **Last Updated:** 2026-01-27T17:00:00Z
+> **Document Status:** Production Ready - Verified Against Codebase
 > **Audit Classification:** Technical Architecture
-> **Git Commit:** 918c51a
+> **Verification Method:** Automated Deep Analysis via 8 Research Agents
+> **Git Commit:** d4a963a
 
 ---
 
@@ -44,19 +45,22 @@
 - **Real-Time Streaming** - SSE-based live execution feedback
 - **Human-in-the-Loop** - Configurable breakpoints with approval workflows
 
-### Key Metrics (v2.8.0)
+### Key Metrics (v2.9.0) - Verified
 
-| Metric | Value |
-|--------|-------|
-| Total API Endpoints | 80+ (40 route modules) |
-| Database Tables | 40+ |
-| Test Coverage | 218 tests |
-| Specialized Agents | 23 (coordinated by Supervisor) |
-| LangGraph Features | 7 (PostgresSaver, Memory, Streaming, HITL, Supervisor, Time Travel, Chat) |
-| Supported Browsers | Chrome, Firefox, Safari, Edge |
-| AI Model Providers | 9 (OpenRouter, Anthropic, OpenAI, Google, Groq, DeepSeek, Cerebras, Together, Local) |
-| Model Routing | 45+ models with intelligent task-based selection |
-| Security Middleware | 7 layers (CORS, Headers, Audit, Rate Limit, Auth, Request Size, Core) |
+| Metric | Value | Verification Source |
+|--------|-------|---------------------|
+| Total API Endpoints | 80+ (40 route modules) | API Endpoints Agent (acf875c) |
+| Database Tables | 20+ production tables | Database Schema Agent (a39a774) |
+| Specialized Agents | 20+ (see Agent Architecture) | Agent Architecture Agent (a23e33d) |
+| LangGraph Features | 7 (PostgresSaver, Memory, Streaming, HITL, Supervisor, Time Travel, Chat) | LangGraph Agent (a1ca712) |
+| Event Types | 8 (CODEBASE_INGESTED through DLQ) | Event System Agent (acfe5cb) |
+| Knowledge Layer | Cognee ECL + FalkorDB + pgvector | Cognee Agent (a3c1fb6) |
+| Dashboard Pages | 30+ pages (Next.js 15 + React 19) | Dashboard Agent (a298ac8) |
+| K8s Components | Redpanda, FalkorDB, Valkey, Flink, Cognee Worker | K8s Infrastructure Agent (acb311c) |
+| Supported Browsers | Chrome, Firefox, Safari, Edge | - |
+| AI Model Providers | 9 (OpenRouter, Anthropic, OpenAI, Google, Groq, DeepSeek, Cerebras, Together, Local) | - |
+| Model Routing | 45+ models with intelligent task-based selection | - |
+| Security Middleware | 7 layers (CORS, Headers, Audit, Rate Limit, Auth, Request Size, Core) | - |
 
 ---
 

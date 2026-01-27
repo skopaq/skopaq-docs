@@ -88,6 +88,9 @@ nav:
     - Deployment FAQ: deployment/faq.md
   - Technical:
     - Architecture: technical/architecture.md
+    - Agent Catalog: technical/agent-catalog.md
+    - Event System: technical/event-system.md
+    - Kubernetes Infrastructure: technical/kubernetes-infrastructure.md
     - Implementation Status: technical/implementation.md
     - Security: technical/security.md
   - Sales:
