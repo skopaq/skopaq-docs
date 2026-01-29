@@ -2,6 +2,20 @@
 
 All notable changes to the Argus Documentation will be documented in this file.
 
+## [1.2.0] - 2026-01-29
+
+### Added
+
+- **MCP & Plugin Integration Architecture** documentation (`technical/mcp-integration.md`)
+  - Complete inventory of 73 MCP tools by category
+  - 27 AI agents with implementation status
+  - 13+ integration platforms documented
+  - Knowledge graph architecture (Cognee ECL pipeline)
+  - Cross-source correlation patterns (5 implemented)
+  - Tiered deployment model (Free → Air-Gapped)
+  - Local MCP server architecture for privacy mode
+  - Linear sprint status and recent completions
+
 ## [1.1.0] - 2026-01-29
 
 ### Added

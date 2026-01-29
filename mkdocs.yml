@@ -89,6 +89,7 @@ nav:
   - Technical:
     - Architecture: technical/architecture.md
     - Agent Catalog: technical/agent-catalog.md
+    - MCP & Plugin Integration: technical/mcp-integration.md
     - Event System: technical/event-system.md
     - Kubernetes Infrastructure: technical/kubernetes-infrastructure.md
     - Observability: technical/observability.md
