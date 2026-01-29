@@ -91,6 +91,7 @@ nav:
     - Agent Catalog: technical/agent-catalog.md
     - Event System: technical/event-system.md
     - Kubernetes Infrastructure: technical/kubernetes-infrastructure.md
+    - Observability: technical/observability.md
     - Implementation Status: technical/implementation.md
     - Security: technical/security.md
   - Sales:
