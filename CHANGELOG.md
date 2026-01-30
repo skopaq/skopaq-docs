@@ -2,6 +2,20 @@
 
 All notable changes to the Argus Documentation will be documented in this file.
 
+## [1.3.0] - 2026-01-30
+
+### Added
+
+- **3-Zone Architecture** documentation (`technical/zone-architecture.md`)
+  - PhD-level systems architecture analysis
+  - Zone 1: Dashboard-only features (35+ cloud-exclusive capabilities)
+  - Zone 2: MCP-accessible features (73 gateway tools inventory)
+  - Zone 3: Shared features and real-time sync requirements
+  - Feature isolation matrix across all zones
+  - Authentication & authorization matrix
+  - Identified gaps and sync protocol recommendations
+  - Complete data flow diagrams
+
 ## [1.2.0] - 2026-01-29
 
 ### Added
