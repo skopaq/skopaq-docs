@@ -2,6 +2,13 @@
 
 All notable changes to the Argus Documentation will be documented in this file.
 
+## 1.0.0 (2026-02-10)
+
+
+### Features
+
+* unified documentation with release-please and Claude review ([3322ef0](https://github.com/skopaq/skopaq-docs/commit/3322ef096756d6fc3e2a1e70803a122bbcddb9be))
+
 ## [1.3.0] - 2026-01-30
 
 ### Added
