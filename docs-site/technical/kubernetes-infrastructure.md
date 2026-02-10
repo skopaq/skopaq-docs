@@ -35,7 +35,7 @@ All phases of the data layer deployment plan have been implemented and validated
 
 ## Architecture Overview
 
-The Argus data layer implements a comprehensive Kubernetes-based streaming and knowledge graph processing infrastructure on **Vultr Kubernetes Engine (VKE)**.
+The Skopaq data layer implements a comprehensive Kubernetes-based streaming and knowledge graph processing infrastructure on **Vultr Kubernetes Engine (VKE)**.
 
 ```mermaid
 graph TB

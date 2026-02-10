@@ -1,6 +1,6 @@
-# Argus E2E Testing Platform - Complete Architecture Diagrams
+# Skopaq E2E Testing Platform - Complete Architecture Diagrams
 
-> **Comprehensive technical diagrams showing every feature, functionality, component, and data flow in the Argus platform.**
+> **Comprehensive technical diagrams showing every feature, functionality, component, and data flow in the Skopaq platform.**
 
 This document contains the following diagram types:
 - **C4 Model Diagrams** (Context, Container, Component levels)
@@ -33,7 +33,7 @@ This document contains the following diagram types:
 
 ## 1. C4 MODEL - SYSTEM CONTEXT (Level 1)
 
-> Shows the Argus platform in context with external systems and users.
+> Shows the Skopaq platform in context with external systems and users.
 
 ```mermaid
 graph TB
@@ -47,7 +47,7 @@ graph TB
         Crawlee["Crawlee Service<br/>Web Crawling"]
     end
 
-    subgraph Argus["ARGUS PLATFORM"]
+    subgraph Skopaq["ARGUS PLATFORM"]
         Dashboard["Next.js Dashboard<br/>Web UI"]
         Backend["FastAPI Backend<br/>Python"]
         Supabase["Supabase<br/>PostgreSQL + Auth"]
@@ -63,7 +63,7 @@ graph TB
     Backend --> Slack
     CICD --> Backend
 
-    style Argus fill:#e1f5fe,stroke:#01579b
+    style Skopaq fill:#e1f5fe,stroke:#01579b
     style External fill:#f3e5f5,stroke:#7b1fa2
 ```
 
@@ -71,7 +71,7 @@ graph TB
 
 ## 2. C4 MODEL - CONTAINER DIAGRAM (Level 2)
 
-> Shows the major containers (applications/services) that make up the Argus platform.
+> Shows the major containers (applications/services) that make up the Skopaq platform.
 
 ```mermaid
 graph TB

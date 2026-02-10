@@ -1,12 +1,12 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Argus E2E Testing Agent API",
+    "title": "Skopaq E2E Testing Agent API",
     "description": "\nAutonomous E2E testing powered by Claude AI.\n\n## Security Features (SOC2 Compliant)\n- **Authentication**: API Key and JWT Bearer token support\n- **Authorization**: Role-Based Access Control (RBAC)\n- **Rate Limiting**: Configurable per-endpoint limits\n- **Audit Logging**: Comprehensive security event logging\n- **Input Validation**: XSS, SQL injection, and path traversal protection\n- **Security Headers**: OWASP-compliant headers\n\n## API Versioning\n- Current Version: v1\n- Version Header: X-API-Version\n    ",
     "version": "2.6.2",
     "contact": {
-      "name": "Argus Security Team",
-      "email": "security@heyargus.com"
+      "name": "Skopaq Security Team",
+      "email": "security@skopaq.ai"
     },
     "license": {
       "name": "MIT",
@@ -2700,7 +2700,7 @@
           "Sync"
         ],
         "summary": "Push Changes",
-        "description": "Push local test changes to Argus cloud.\n\nSyncs test specifications from IDE to the platform.\nDetects conflicts if remote has diverged.",
+        "description": "Push local test changes to Skopaq cloud.\n\nSyncs test specifications from IDE to the platform.\nDetects conflicts if remote has diverged.",
         "operationId": "push_changes_api_v1_sync_push_post",
         "requestBody": {
           "content": {
@@ -2742,7 +2742,7 @@
           "Sync"
         ],
         "summary": "Pull Changes",
-        "description": "Pull test changes from Argus cloud.\n\nFetches the latest test specifications and updates from team members.",
+        "description": "Pull test changes from Skopaq cloud.\n\nFetches the latest test specifications and updates from team members.",
         "operationId": "pull_changes_api_v1_sync_pull_get",
         "parameters": [
           {
@@ -3060,7 +3060,7 @@
           "Export"
         ],
         "summary": "Generate Export",
-        "description": "Generate test code in the specified language and framework.\n\nConverts Argus test specification to executable test code.",
+        "description": "Generate test code in the specified language and framework.\n\nConverts Skopaq test specification to executable test code.",
         "operationId": "generate_export_api_v1_export_generate_post",
         "requestBody": {
           "content": {
@@ -22625,7 +22625,7 @@
   ],
   "servers": [
     {
-      "url": "https://argus-brain-production.up.railway.app",
+      "url": "https://skopaq-brain-production.up.railway.app",
       "description": "Production server"
     },
     {
@@ -22634,7 +22634,7 @@
     }
   ],
   "externalDocs": {
-    "description": "Argus Documentation",
-    "url": "https://docs.heyargus.com"
+    "description": "Skopaq Documentation",
+    "url": "https://docs.skopaq.ai"
   }
 }

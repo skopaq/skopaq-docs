@@ -1,4 +1,4 @@
-# Argus API Reference
+# Skopaq API Reference
 
 > **Version:** 2.2.0
 > **Last Updated:** 2026-01-12
@@ -27,7 +27,7 @@
 
 ## Authentication
 
-Argus supports two authentication methods:
+Skopaq supports two authentication methods:
 
 ### JWT Authentication (Recommended for Web)
 
@@ -961,4 +961,4 @@ X-RateLimit-Reset: 1704988800
 
 *Document generated: 2026-01-12*
 *API Version: 2.2.0*
-*Argus E2E Testing Agent*
+*Skopaq E2E Testing Agent*

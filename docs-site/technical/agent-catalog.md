@@ -1,4 +1,4 @@
-# Argus Agent Catalog
+# Skopaq Agent Catalog
 
 > **Version:** 1.0.0
 > **Last Updated:** 2026-01-27T17:30:00Z
@@ -9,7 +9,7 @@
 
 ## Overview
 
-Argus employs **20+ specialized AI agents** orchestrated via LangGraph 1.0. Each agent has a specific responsibility in the testing lifecycle, from code analysis to self-healing.
+Skopaq employs **20+ specialized AI agents** orchestrated via LangGraph 1.0. Each agent has a specific responsibility in the testing lifecycle, from code analysis to self-healing.
 
 ```mermaid
 graph TB
@@ -302,7 +302,7 @@ class QueryResult:
 
 ### 7. SelfHealerAgent (`self_healer.py` - 74KB)
 
-**Purpose**: Analyzes test failures and auto-fixes broken tests. **This is Argus's key competitive advantage.**
+**Purpose**: Analyzes test failures and auto-fixes broken tests. **This is Skopaq's key competitive advantage.**
 
 **Source**: `src/agents/self_healer.py:1-3200`
 

@@ -1,4 +1,4 @@
-# Argus E2E Testing Agent - Complete Architecture Documentation
+# Skopaq E2E Testing Agent - Complete Architecture Documentation
 
 > **Version:** 2.9.0
 > **Last Updated:** 2026-01-27T17:00:00Z
@@ -34,7 +34,7 @@
 
 ## 1. Executive Summary
 
-**Argus** is an autonomous E2E full-stack testing platform powered by Claude AI. The system leverages **LangGraph 1.0** for durable orchestration, enabling:
+**Skopaq** is an autonomous E2E full-stack testing platform powered by Claude AI. The system leverages **LangGraph 1.0** for durable orchestration, enabling:
 
 - **Autonomous Test Generation** - AI analyzes codebases and generates comprehensive test plans
 - **Hybrid UI Testing** - Combines Claude Computer Use API with Playwright for reliable execution
@@ -1475,7 +1475,7 @@ graph TB
         DATADOG[Datadog]
     end
 
-    subgraph "Argus Core"
+    subgraph "Skopaq Core"
         WEBHOOK[Webhook Handler]
         NOTIFIER[Notification Service]
         TICKET[Ticket Creator]
@@ -1507,7 +1507,7 @@ graph TB
         CURSOR[Cursor IDE]
     end
 
-    subgraph "Argus MCP Server"
+    subgraph "Skopaq MCP Server"
         MCP[argus-mcp-server<br/>Cloudflare Worker]
         TOOLS[Tools]
         RESOURCES[Resources]
@@ -1660,7 +1660,7 @@ graph TB
 
 ```mermaid
 gantt
-    title Argus Version History
+    title Skopaq Version History
     dateFormat YYYY-MM-DD
 
     section v1.0.0
@@ -1865,4 +1865,4 @@ GITHUB_TOKEN=ghp_...
 *Document generated: 2026-01-17T05:30:00Z*
 *Architecture Version: 2.8.0*
 *Git Commit: 918c51a*
-*Argus E2E Testing Agent*
+*Skopaq E2E Testing Agent*

@@ -1,4 +1,4 @@
-# Argus: AI Architecture for Scale (1 to 10 Crore Users)
+# Skopaq: AI Architecture for Scale (1 to 10 Crore Users)
 
 ## The Problem We're Solving
 
@@ -8,7 +8,7 @@ Traditional testing tools are:
 3. **Isolated** - Each company learns alone
 4. **Expensive** - Pay per seat, not per value
 
-Argus is:
+Skopaq is:
 1. **AI-native** - Tests generated from production errors
 2. **Predictive** - Prevent bugs before they manifest
 3. **Collective** - Cross-company pattern intelligence
@@ -346,7 +346,7 @@ ARGUS POSITION:
 ├── We're building the bridge from TODAY to FAR FUTURE
 ├── Each feature we ship moves the industry forward
 ├── The pattern library becomes the "immune system" of software
-└── Eventually: "All software uses Argus patterns" (like how all search uses Google's index)
+└── Eventually: "All software uses Skopaq patterns" (like how all search uses Google's index)
 ```
 
 ---
@@ -380,12 +380,12 @@ ARGUS POSITION:
 ### Phase 4: Dominance (12-24 months)
 - [ ] Industry-standard pattern library
 - [ ] Acquisition targets or acquirer
-- [ ] Platform play (let others build on Argus)
+- [ ] Platform play (let others build on Skopaq)
 - [ ] Research publications (credibility)
 
 ---
 
-## Summary: Why Argus Wins
+## Summary: Why Skopaq Wins
 
 ```
 1. COST ADVANTAGE
@@ -408,4 +408,4 @@ ARGUS POSITION:
 ```
 
 The future of software quality is **predictive, automated, and collective**.
-Argus is building that future.
+Skopaq is building that future.

@@ -1,4 +1,4 @@
-# Argus Quality Intelligence Platform: 3-Zone Architecture
+# Skopaq Quality Intelligence Platform: 3-Zone Architecture
 
 > **PhD-Level Systems Architecture Analysis**
 > Comprehensive feature isolation between Dashboard, MCP, and shared infrastructure
@@ -7,7 +7,7 @@
 
 ## Executive Summary
 
-The Argus platform operates across **three distinct zones** with carefully designed boundaries:
+The Skopaq platform operates across **three distinct zones** with carefully designed boundaries:
 
 | Zone | Access Mode | Primary Users | Data Flow |
 |------|-------------|---------------|-----------|
@@ -101,7 +101,7 @@ These require browser-based OAuth2 consent flows:
 
 ## Zone 2: MCP-Accessible Features
 
-Features accessible through the Argus MCP server for AI agents (Claude Code, Cursor, etc.).
+Features accessible through the Skopaq MCP server for AI agents (Claude Code, Cursor, etc.).
 
 ### 2.1 MCP Tool Categories (73 Tools)
 
@@ -181,7 +181,7 @@ Features accessible through the Argus MCP server for AI agents (Claude Code, Cur
 │                     AI AGENT (Claude Code)                    │
 │                                                               │
 │   Agent has: • Filesystem MCP  • GitHub MCP  • Playwright MCP │
-│              • Argus MCP (our gateway)                        │
+│              • Skopaq MCP (our gateway)                        │
 └───────────────────────────┬───────────────────────────────────┘
                             │
                             ▼
@@ -191,7 +191,7 @@ Features accessible through the Argus MCP server for AI agents (Claude Code, Cur
 │   1. Receive tool call from agent                             │
 │   2. Add authentication (API key or OAuth2 token)             │
 │   3. Transform request to Brain API format                    │
-│   4. Forward to Argus Brain backend                           │
+│   4. Forward to Skopaq Brain backend                           │
 │   5. Transform response back to MCP format                    │
 │   6. Return to agent                                          │
 │                                                               │
@@ -445,7 +445,7 @@ Features that must be synchronized between Dashboard and MCP.
 
 ## Conclusion
 
-The Argus 3-Zone Architecture ensures:
+The Skopaq 3-Zone Architecture ensures:
 
 1. **Dashboard (Zone 1)**: Full control over configuration, integrations, and human-in-the-loop workflows
 2. **MCP (Zone 2)**: Fast, AI-optimized access to intelligence results without local processing

@@ -1,8 +1,8 @@
-# Argus Brain: PhD-Level Code Intelligence Architecture
+# Skopaq Brain: PhD-Level Code Intelligence Architecture
 
 ## Executive Summary
 
-This document presents a **PhD-level architectural design** for Argus Brain - a universal code intelligence system that can analyze any repository type (frontend, backend, microservices, databases, test automation) while keeping code **private and local** using MCP (Model Context Protocol).
+This document presents a **PhD-level architectural design** for Skopaq Brain - a universal code intelligence system that can analyze any repository type (frontend, backend, microservices, databases, test automation) while keeping code **private and local** using MCP (Model Context Protocol).
 
 ### The Core Innovation
 
@@ -25,7 +25,7 @@ This document presents a **PhD-level architectural design** for Argus Brain - a 
 ## Table of Contents
 
 1. [How The Giants Do It](#1-how-the-giants-do-it)
-2. [The Argus Innovation: Local-First Architecture](#2-the-argus-innovation-local-first-architecture)
+2. [The Skopaq Innovation: Local-First Architecture](#2-the-argus-innovation-local-first-architecture)
 3. [Code Indexing Deep Dive](#3-code-indexing-deep-dive)
 4. [Multi-Repository Type Support](#4-multi-repository-type-support)
 5. [CI/CD Integration Architecture](#5-cicd-integration-architecture)
@@ -178,7 +178,7 @@ This document presents a **PhD-level architectural design** for Argus Brain - a 
 
 ---
 
-## 2. The Argus Innovation: Local-First Architecture
+## 2. The Skopaq Innovation: Local-First Architecture
 
 ### 2.1 The Problem We're Solving
 
@@ -188,9 +188,9 @@ This document presents a **PhD-level architectural design** for Argus Brain - a 
 | Cursor | ~ Chunks to cloud | ~ | ~ | ✗ |
 | Sourcegraph | ✗ Self-host only | ✓ | ✓ | ✓ |
 | Windsurf | ✗ Code to cloud | ✗ | ~ | ✗ |
-| **Argus** | **✓ Code never leaves** | **✓** | **✓** | **✓** |
+| **Skopaq** | **✓ Code never leaves** | **✓** | **✓** | **✓** |
 
-### 2.2 Argus Brain Architecture
+### 2.2 Skopaq Brain Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -275,14 +275,14 @@ This document presents a **PhD-level architectural design** for Argus Brain - a 
 from mcp.server import Server
 from mcp.types import Tool, Resource
 
-class ArgusBrainMCPServer:
+class SkopaqBrainMCPServer:
     """
     MCP Server that runs LOCALLY in customer environment.
     Provides code intelligence without sending code to cloud.
 
     This is the key to enterprise adoption:
     - Code NEVER leaves their environment
-    - Only embeddings and metadata go to Argus cloud
+    - Only embeddings and metadata go to Skopaq cloud
     - Full analysis happens locally
     """
 
@@ -436,7 +436,7 @@ class ArgusBrainMCPServer:
 │  │    changed parts)              │          │     • Use embedding similarity  │  │
 │  │  • Milliseconds (vs seconds    │          │     • Group related code        │  │
 │  │    for LSP)                    │          │                                 │  │
-│  │  • Error-tolerant (handles     │          │  4. HYBRID (Argus default)      │  │
+│  │  • Error-tolerant (handles     │          │  4. HYBRID (Skopaq default)      │  │
 │  │    broken code)                │          │     • Function-level base       │  │
 │  │  • 40+ language grammars       │          │     • Merge small functions     │  │
 │  │                                 │          │     • Split large functions     │  │
@@ -461,7 +461,7 @@ class ArgusBrainMCPServer:
 │  │     • General purpose, fine-tuned on code    └─────────────────────┘           ││
 │  │     • 1536 dimensions                                                          ││
 │  │                                                                                ││
-│  │  4. bge-large-en-v1.5 (Local, used by Argus)                                   ││
+│  │  4. bge-large-en-v1.5 (Local, used by Skopaq)                                   ││
 │  │     • Can run 100% locally                                                     ││
 │  │     • 1024 dimensions                                                          ││
 │  │     • No cloud dependency                                                      ││
@@ -471,7 +471,7 @@ class ArgusBrainMCPServer:
 │  PHASE 4: MERKLE TREE SYNC (Inspired by Cursor)                                    │
 │  ┌─────────────────────────────────────────────────────────────────────────────┐   │
 │  │                                                                             │   │
-│  │  LOCAL                                    CLOUD (Argus)                     │   │
+│  │  LOCAL                                    CLOUD (Skopaq)                     │   │
 │  │  ┌────────────────────┐                  ┌────────────────────┐             │   │
 │  │  │     ROOT HASH      │                  │     ROOT HASH      │             │   │
 │  │  │    [abc123...]     │──────compare────►│    [abc123...]     │             │   │
@@ -629,7 +629,7 @@ class IncrementalIndexer:
 | Full reindex | 5-10 minutes | 5-10 minutes | 2GB+ |
 | LSP-based | 2-3 minutes | 30 seconds | 1GB |
 | Tree-sitter + Merkle | 1-2 minutes | **< 5 seconds** | 500MB |
-| **Argus (optimized)** | **30-60 seconds** | **< 2 seconds** | **300MB** |
+| **Skopaq (optimized)** | **30-60 seconds** | **< 2 seconds** | **300MB** |
 
 ---
 
@@ -930,7 +930,7 @@ class KubernetesAnalyzer(BaseAnalyzer):
 │  ┌─────────────────────────────────────────────────────────────────────────────┐   │
 │  │  # .github/workflows/argus.yml                                              │   │
 │  │                                                                             │   │
-│  │  name: Argus Quality Intelligence                                           │   │
+│  │  name: Skopaq Quality Intelligence                                           │   │
 │  │                                                                             │   │
 │  │  on:                                                                        │   │
 │  │    pull_request:                                                            │   │
@@ -942,7 +942,7 @@ class KubernetesAnalyzer(BaseAnalyzer):
 │  │      steps:                                                                 │   │
 │  │        - uses: actions/checkout@v4                                          │   │
 │  │                                                                             │   │
-│  │        - name: Install Argus Agent                                          │   │
+│  │        - name: Install Skopaq Agent                                          │   │
 │  │          run: pip install argus-brain                                       │   │
 │  │                                                                             │   │
 │  │        - name: Analyze Changes                                              │   │
@@ -950,7 +950,7 @@ class KubernetesAnalyzer(BaseAnalyzer):
 │  │            # Get changed files                                              │   │
 │  │            CHANGED=$(git diff --name-only origin/main...HEAD)               │   │
 │  │                                                                             │   │
-│  │            # Run Argus analysis LOCALLY                                     │   │
+│  │            # Run Skopaq analysis LOCALLY                                     │   │
 │  │            argus analyze --changed-files "$CHANGED"                         │   │
 │  │                                                                             │   │
 │  │            # Get test impact                                                │   │
@@ -1265,9 +1265,9 @@ class CICDWebhookHandler:
 
 ---
 
-## Summary: The Argus Competitive Advantage
+## Summary: The Skopaq Competitive Advantage
 
-| Capability | Copilot | Cursor | Sourcegraph | Windsurf | **Argus** |
+| Capability | Copilot | Cursor | Sourcegraph | Windsurf | **Skopaq** |
 |------------|---------|--------|-------------|----------|-----------|
 | Code Privacy | ✗ | ~ | ~ | ✗ | **✓ 100%** |
 | Local Processing | ✗ | ~ | ✗ | ~ | **✓** |
@@ -1279,7 +1279,7 @@ class CICDWebhookHandler:
 
 **The Bottom Line:**
 
-> "Argus is the only code intelligence platform where your code **NEVER leaves your environment**. We analyze locally, send only embeddings, and provide 99.9% accurate self-healing through git history analysis - something no competitor offers."
+> "Skopaq is the only code intelligence platform where your code **NEVER leaves your environment**. We analyze locally, send only embeddings, and provide 99.9% accurate self-healing through git history analysis - something no competitor offers."
 
 ---
 

@@ -1,6 +1,6 @@
-# Contributing to Argus E2E Testing Agent
+# Contributing to Skopaq E2E Testing Agent
 
-Thank you for your interest in contributing to Argus! This document provides guidelines and instructions for contributing to the backend/core testing engine.
+Thank you for your interest in contributing to Skopaq! This document provides guidelines and instructions for contributing to the backend/core testing engine.
 
 ## Table of Contents
 
@@ -346,7 +346,7 @@ ruff check --fix src/ tests/
 
 - 💬 **Discussions**: Ask questions in GitHub Discussions
 - 🐛 **Issues**: Report bugs in GitHub Issues
-- 📧 **Email**: Contact maintainers at support@heyargus.ai
+- 📧 **Email**: Contact maintainers at support@skopaq.ai
 - 📚 **Docs**: Read the full documentation at docs/
 
 ## License
@@ -355,4 +355,4 @@ By contributing, you agree that your contributions will be licensed under the MI
 
 ---
 
-Thank you for contributing to Argus! 🤖✨
+Thank you for contributing to Skopaq! 🤖✨

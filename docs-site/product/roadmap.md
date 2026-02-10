@@ -1,4 +1,4 @@
-# Argus Autonomous Testing Roadmap
+# Skopaq Autonomous Testing Roadmap
 
 ## Market Analysis
 
@@ -12,7 +12,7 @@
 | **Virtuoso QA** | Natural language authoring, self-healing, unified UI+API testing | Enterprise |
 | **Applitools** | Visual AI, cross-browser visual testing | $500+/mo |
 
-### Argus Competitive Advantages
+### Skopaq Competitive Advantages
 
 1. **Open Architecture** - Cloudflare Workers + Claude AI (flexible model selection)
 2. **Cost Efficiency** - Leverages Cloudflare Browser rendering (free tier)
@@ -182,7 +182,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run Argus Tests
+      - name: Run Skopaq Tests
         uses: raphaenterprises-ai/argus-action@v1
         with:
           url: ${{ secrets.STAGING_URL }}

@@ -4,7 +4,7 @@ Private documentation site for ARGUS - AI-Powered Autonomous E2E Testing Platfor
 
 ## Live Site
 
-**URL**: https://docs.heyargus.ai (Private - Cloudflare Access protected)
+**URL**: https://docs.skopaq.ai (Private - Cloudflare Access protected)
 
 ## Quick Start
 
@@ -58,7 +58,7 @@ docs-site/
 See [DOCS_SETUP_INSTRUCTIONS.md](./DOCS_SETUP_INSTRUCTIONS.md) for complete setup guide including:
 
 - Cloudflare Pages deployment
-- Custom domain (docs.heyargus.ai)
+- Custom domain (docs.skopaq.ai)
 - Cloudflare Access for private authentication
 - GitHub Actions auto-deployment
 

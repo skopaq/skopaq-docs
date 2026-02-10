@@ -1,4 +1,4 @@
-# Argus MCP & Plugin Integration Architecture
+# Skopaq MCP & Plugin Integration Architecture
 
 ## PhD-Level Analysis: The Intelligent SDLC/STLC Interface Layer
 
@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-Argus is **not a testing tool** — it's an **AI-powered Quality Intelligence Platform** that serves as "Jarvis for engineering organizations." The MCP server and Claude Code plugin form the critical **human-AI interface layer** that connects developers directly to:
+Skopaq is **not a testing tool** — it's an **AI-powered Quality Intelligence Platform** that serves as "Jarvis for engineering organizations." The MCP server and Claude Code plugin form the critical **human-AI interface layer** that connects developers directly to:
 
 - **73 MCP tools** exposing full platform capabilities
 - **27 specialized AI agents** for autonomous task execution
@@ -651,7 +651,7 @@ Agent testing tickets created but not started:
 
 ---
 
-## 7. Summary: What Argus Actually Is
+## 7. Summary: What Skopaq Actually Is
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -756,5 +756,5 @@ Agent testing tickets created but not started:
 ---
 
 **Document Author:** Claude (Analysis)
-**Source:** Argus Backend, Dashboard, MCP Server, argus-docs, Linear
+**Source:** Skopaq Backend, Dashboard, MCP Server, argus-docs, Linear
 **Confidence:** High (based on actual code review)

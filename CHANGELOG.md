@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the Argus Documentation will be documented in this file.
+All notable changes to the Skopaq Documentation will be documented in this file.
 
 ## [1.3.0] - 2026-01-30
 
@@ -66,7 +66,7 @@ All notable changes to the Argus Documentation will be documented in this file.
 - Release-please workflow for automated versioning
 - Claude Code review workflow for PR quality
 - Architecture documentation section
-  - Argus Brain architecture
+  - Skopaq Brain architecture
   - System diagrams
 - API Reference with OpenAPI specification
 - User guides

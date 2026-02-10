@@ -9,7 +9,7 @@
 
 ## Overview
 
-Argus implements an **event-driven architecture** using Redpanda (Kafka-compatible) for asynchronous processing. This enables decoupled, scalable workflows for test execution, self-healing, and knowledge graph building.
+Skopaq implements an **event-driven architecture** using Redpanda (Kafka-compatible) for asynchronous processing. This enables decoupled, scalable workflows for test execution, self-healing, and knowledge graph building.
 
 ```mermaid
 flowchart LR
@@ -81,8 +81,8 @@ class EventType(str, Enum):
 
 ```python
 @dataclass
-class ArgusEvent:
-    """Base event schema for all Argus events."""
+class SkopaqEvent:
+    """Base event schema for all Skopaq events."""
     event_id: str              # UUID v4
     event_type: EventType      # Event classification
     timestamp: datetime        # ISO 8601 UTC
@@ -106,7 +106,7 @@ class ArgusEvent:
         })
 
     @classmethod
-    def from_json(cls, data: str | bytes) -> "ArgusEvent":
+    def from_json(cls, data: str | bytes) -> "SkopaqEvent":
         """Deserialize event from Kafka message."""
         obj = json.loads(data)
         return cls(
@@ -142,7 +142,7 @@ class ArgusEvent:
 
 ```python
 # src/events/event_gateway.py:89-105
-def _get_partition_key(self, event: ArgusEvent) -> bytes:
+def _get_partition_key(self, event: SkopaqEvent) -> bytes:
     """
     Partition key strategy for event ordering.
 
@@ -202,7 +202,7 @@ class EventGateway:
 
     async def publish(
         self,
-        event: ArgusEvent,
+        event: SkopaqEvent,
         topic: str | None = None
     ) -> RecordMetadata:
         """
@@ -282,7 +282,7 @@ async def create_test(
 
     # Emit event
     if event_gateway:
-        event = ArgusEvent(
+        event = SkopaqEvent(
             event_id=str(uuid.uuid4()),
             event_type=EventType.TEST_CREATED,
             timestamp=datetime.utcnow(),
@@ -345,14 +345,14 @@ class CogneeConsumer:
         """Main consumption loop."""
         async for message in self.consumer:
             try:
-                event = ArgusEvent.from_json(message.value)
+                event = SkopaqEvent.from_json(message.value)
                 await self._process_event(event)
                 await self.consumer.commit()
             except Exception as e:
                 logger.error("Event processing failed", error=str(e))
                 await self._send_to_dlq(message, e)
 
-    async def _process_event(self, event: ArgusEvent):
+    async def _process_event(self, event: SkopaqEvent):
         """Route event to appropriate handler."""
         handlers = {
             EventType.CODEBASE_INGESTED: self._handle_codebase_ingested,
@@ -365,7 +365,7 @@ class CogneeConsumer:
         if handler:
             await handler(event)
 
-    async def _handle_codebase_ingested(self, event: ArgusEvent):
+    async def _handle_codebase_ingested(self, event: SkopaqEvent):
         """
         Build knowledge graph from ingested codebase.
 
@@ -392,7 +392,7 @@ class CogneeConsumer:
         # Store results
         await self._store_knowledge_graph(project_id)
 
-    async def _handle_test_failed(self, event: ArgusEvent):
+    async def _handle_test_failed(self, event: SkopaqEvent):
         """
         Store failure patterns for self-healing.
 
@@ -526,7 +526,7 @@ async def _send_to_dlq(
     """
     Send failed message to dead letter queue with error context.
     """
-    dlq_event = ArgusEvent(
+    dlq_event = SkopaqEvent(
         event_id=str(uuid.uuid4()),
         event_type=EventType.DLQ,
         timestamp=datetime.utcnow(),
@@ -570,7 +570,7 @@ async def process_dlq(self):
     3. If over limit, alert and store for manual review
     """
     async for message in self.dlq_consumer:
-        event = ArgusEvent.from_json(message.value)
+        event = SkopaqEvent.from_json(message.value)
         retry_count = event.metadata.get("retry_count", 0)
 
         if retry_count < event.metadata.get("max_retries", 3):

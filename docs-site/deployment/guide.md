@@ -1,6 +1,6 @@
-# Argus Deployment Guide
+# Skopaq Deployment Guide
 
-This guide covers deploying the full Argus E2E Testing Agent stack.
+This guide covers deploying the full Skopaq E2E Testing Agent stack.
 
 ## Architecture Overview
 
@@ -33,9 +33,9 @@ This guide covers deploying the full Argus E2E Testing Agent stack.
 | Dashboard | `dashboard/` | Vercel | Deployed |
 | Browser Worker | `cloudflare-worker/` | Cloudflare Workers | Deployed |
 | MCP Server | `argus-mcp-server/` | Cloudflare Workers | Deployed |
-| **Argus Brain** | `src/` | Railway/Render/Fly.io | **NEEDS DEPLOYMENT** |
+| **Skopaq Brain** | `src/` | Railway/Render/Fly.io | **NEEDS DEPLOYMENT** |
 
-## 1. Deploy Argus Brain (Python Backend)
+## 1. Deploy Skopaq Brain (Python Backend)
 
 The Brain handles orchestration, code analysis, and advanced AI features.
 
@@ -56,11 +56,11 @@ railway up
 
 # 5. Set environment variables
 railway variables set ANTHROPIC_API_KEY=sk-ant-...
-railway variables set BROWSER_WORKER_URL=https://argus-api.samuelvinay-kumar.workers.dev
+railway variables set BROWSER_WORKER_URL=https://skopaq-api.samuelvinay-kumar.workers.dev
 
 # 6. Get your deployment URL
 railway status
-# Example: https://argus-brain-production.up.railway.app
+# Example: https://skopaq-brain-production.up.railway.app
 ```
 
 ### Option B: Render
@@ -106,7 +106,7 @@ pip install -e .
 
 # 2. Set environment variables
 export ANTHROPIC_API_KEY=sk-ant-...
-export BROWSER_WORKER_URL=https://argus-api.samuelvinay-kumar.workers.dev
+export BROWSER_WORKER_URL=https://skopaq-api.samuelvinay-kumar.workers.dev
 
 # 3. Run the server
 python -m uvicorn src.api.server:app --host 0.0.0.0 --port 8000
@@ -123,7 +123,7 @@ Update your dashboard environment:
 ARGUS_BACKEND_URL=https://your-argus-brain.railway.app
 
 # Browser Worker (already deployed)
-E2E_WORKER_URL=https://argus-api.samuelvinay-kumar.workers.dev
+E2E_WORKER_URL=https://skopaq-api.samuelvinay-kumar.workers.dev
 ```
 
 Then redeploy the dashboard:
@@ -145,7 +145,7 @@ curl https://your-argus-brain.railway.app/health
 ### Test Browser Worker Health
 
 ```bash
-curl https://argus-api.samuelvinay-kumar.workers.dev/health
+curl https://skopaq-api.samuelvinay-kumar.workers.dev/health
 # Should return: {"status": "ok", ...}
 ```
 
@@ -157,12 +157,12 @@ Check system status
 ```
 
 You should see both components connected:
-- Argus Brain (Python/LangGraph): connected
-- Argus Worker (Cloudflare/Browser): connected
+- Skopaq Brain (Python/LangGraph): connected
+- Skopaq Worker (Cloudflare/Browser): connected
 
 ## Environment Variables Reference
 
-### Argus Brain (Python)
+### Skopaq Brain (Python)
 
 | Variable | Required | Description |
 |----------|----------|-------------|
@@ -178,7 +178,7 @@ You should see both components connected:
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `ANTHROPIC_API_KEY` | Yes | Anthropic API key |
-| `ARGUS_BACKEND_URL` | Yes | URL of Argus Brain |
+| `ARGUS_BACKEND_URL` | Yes | URL of Skopaq Brain |
 | `E2E_WORKER_URL` | Yes | URL of Browser Worker |
 | `NEXT_PUBLIC_CLERK_*` | Yes | Clerk auth config |
 | `NEXT_PUBLIC_SUPABASE_*` | No | Supabase config |
@@ -196,7 +196,7 @@ Set via `wrangler secret put`:
 
 ## Deployment Checklist
 
-- [ ] Deploy Argus Brain to Railway/Render/Fly.io
+- [ ] Deploy Skopaq Brain to Railway/Render/Fly.io
 - [ ] Set all required environment variables
 - [ ] Test Brain health endpoint
 - [ ] Update dashboard with Brain URL
